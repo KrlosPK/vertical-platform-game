@@ -35,6 +35,14 @@ class Player extends Sprite {
 
 			this.animations[key].image = image;
 		}
+		this.camerabox = {
+			position: {
+				x: this.position.x,
+				y: this.position.y
+			},
+			width: 200,
+			height: 80
+		};
 	}
 
 	switchSprite(key) {
@@ -46,9 +54,62 @@ class Player extends Sprite {
 		this.frameRate = this.animations[key].frameRate;
 	}
 
+	udpateCameraBox() {
+		this.cameraBox = {
+			position: {
+				x: this.position.x - 50,
+				y: this.position.y
+			},
+			width: 200,
+			height: 80
+		};
+	}
+
+	checkForHorizontalCanvasCollision() {
+		if (
+			this.hitbox.position.x + this.hitbox.width + this.velocity.x >=
+				576 ||
+			this.hitbox.position.x + this.velocity.x <= 1
+		) {
+			this.velocity.x = 0;
+		}
+	}
+
+	shouldPanCameraToTheLeft({ canvas, camera }) {
+		const cameraBoxRightSide =
+			this.cameraBox.position.x + this.cameraBox.width;
+		const scaledDownCanvasWidth = canvas.width / 4;
+
+		if (cameraBoxRightSide >= 576) return;
+
+		if (
+			cameraBoxRightSide >=
+			scaledDownCanvasWidth + Math.abs(camera.position.x)
+		) {
+			camera.position.x -= this.velocity.x;
+		}
+	}
+
+	shouldPanCameraToTheRight({ canvas, camera }) {
+		if (this.cameraBox.position.x <= 0) return;
+
+		if (this.cameraBox.position.x <= Math.abs(camera.position.x)) {
+			camera.position.x -= this.velocity.x;
+		}
+	}
+
 	update() {
 		this.updateFrames();
 		this.updateHitbox();
+		this.udpateCameraBox();
+
+		c.fillStyle = 'rgba(0,0,0,0.3)';
+		c.fillRect(
+			this.cameraBox.position.x,
+			this.cameraBox.position.y,
+			this.cameraBox.width,
+			this.cameraBox.height
+		);
 
 		this.draw();
 
