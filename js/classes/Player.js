@@ -146,7 +146,7 @@ class Player extends Sprite {
 				x: this.position.x + 35,
 				y: this.position.y + 26
 			},
-			width: 14,
+			width: 12,
 			height: 27	
 		};
 	}

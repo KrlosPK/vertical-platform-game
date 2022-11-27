@@ -187,7 +187,7 @@ window.addEventListener('keydown', (e) => {
 			keys.d.pressed = true;
 			break;
 		case 'w':
-			player.velocity.y = -4;
+			if (player.velocity.y === 0) player.velocity.y = -4;
 			break;
 		default:
 			break;
