@@ -57,10 +57,11 @@ const playerVelocity = 6;
 const player = new Player({
 	position: {
 		x: 100,
-		y: 0
+		y: 320
 	},
 	collisionBlocks,
-	imageSrc: './imgs/warrior/Idle.png'
+	imageSrc: './imgs/warrior/Idle.png',
+	frameRate: 8
 });
 
 const keys = {
