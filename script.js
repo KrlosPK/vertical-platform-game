@@ -44,14 +44,15 @@ platformCollisions2D.forEach((row, y) => {
 					position: {
 						x: x * 16,
 						y: y * 16
-					}
+					},
+					height: 4
 				})
 			);
 		}
 	});
 });
 
-const gravity = 0.5;
+const gravity = 0.1;
 const playerVelocity = 3;
 
 const player = new Player({
@@ -60,6 +61,7 @@ const player = new Player({
 		y: 320
 	},
 	collisionBlocks,
+	platformCollisionBlocks,
 	imageSrc: './imgs/warrior/Idle.png',
 	frameRate: 8,
 	animations: {
@@ -177,7 +179,7 @@ window.addEventListener('keydown', (e) => {
 			keys.d.pressed = true;
 			break;
 		case 'w':
-			player.velocity.y = -8;
+			player.velocity.y = -4;
 			break;
 		default:
 			break;
