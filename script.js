@@ -125,10 +125,12 @@ const background = new Sprite({
 	imageSrc: './imgs/background.png'
 });
 
+const backgroundImageHeight = 432;
+
 const camera = {
 	position: {
 		x: 0,
-		y: 0
+		y: -backgroundImageHeight + scaledCanvas.height
 	}
 };
 
@@ -139,18 +141,9 @@ const animate = () => {
 
 	c.save();
 	c.scale(4, 4);
-	c.translate(
-		camera.position.x,
-		-background.image.height + scaledCanvas.height
-	);
+	c.translate(camera.position.x, camera.position.y);
 	background.update();
-	collisionBlocks.forEach((block) => {
-		block.update();
-	});
-	platformCollisionBlocks.forEach((block) => {
-		block.update();
-	});
-	
+
 	player.checkForHorizontalCanvasCollision();
 	player.update();
 
@@ -171,9 +164,11 @@ const animate = () => {
 	}
 
 	if (player.velocity.y < 0) {
+		player.shouldPanCameraDown({ camera, canvas });
 		if (player.lastDirection === 'right') player.switchSprite('Jump');
 		else player.switchSprite('JumpLeft');
 	} else if (player.velocity.y > 0) {
+		player.shouldPanCameraUp({ camera, canvas });
 		if (player.lastDirection === 'right') player.switchSprite('Fall');
 		else player.switchSprite('FallLeft');
 	}

@@ -54,8 +54,8 @@ class Player extends Sprite {
 		this.frameRate = this.animations[key].frameRate;
 	}
 
-	udpateCameraBox() {
-		this.cameraBox = {
+	udpatecamerabox() {
+		this.camerabox = {
 			position: {
 				x: this.position.x - 50,
 				y: this.position.y
@@ -76,14 +76,14 @@ class Player extends Sprite {
 	}
 
 	shouldPanCameraToTheLeft({ canvas, camera }) {
-		const cameraBoxRightSide =
-			this.cameraBox.position.x + this.cameraBox.width;
+		const cameraboxRightSide =
+			this.camerabox.position.x + this.camerabox.width;
 		const scaledDownCanvasWidth = canvas.width / 4;
 
-		if (cameraBoxRightSide >= 576) return;
+		if (cameraboxRightSide >= 576) return;
 
 		if (
-			cameraBoxRightSide >=
+			cameraboxRightSide >=
 			scaledDownCanvasWidth + Math.abs(camera.position.x)
 		) {
 			camera.position.x -= this.velocity.x;
@@ -91,25 +91,44 @@ class Player extends Sprite {
 	}
 
 	shouldPanCameraToTheRight({ canvas, camera }) {
-		if (this.cameraBox.position.x <= 0) return;
+		if (this.camerabox.position.x <= 0) return;
 
-		if (this.cameraBox.position.x <= Math.abs(camera.position.x)) {
+		if (this.camerabox.position.x <= Math.abs(camera.position.x)) {
 			camera.position.x -= this.velocity.x;
+		}
+	}
+
+	shouldPanCameraDown({ canvas, camera }) {
+		if (this.camerabox.position.y + this.velocity.y <= 0) return
+
+		if (this.camerabox.position.y <= Math.abs(camera.position.y)) {
+			camera.position.y -= this.velocity.y;
+		}
+	}
+
+	shouldPanCameraUp({ canvas, camera }) {
+		if (
+			this.camerabox.position.y +
+				this.camerabox.height +
+				this.velocity.y >=
+			432
+		)
+			return;
+
+		const scaledCanvasHeight = canvas.height / 4;
+
+		if (
+			this.camerabox.position.y + this.camerabox.height >=
+			Math.abs(camera.position.y) + scaledCanvasHeight
+		) {
+			camera.position.y -= this.velocity.y;
 		}
 	}
 
 	update() {
 		this.updateFrames();
 		this.updateHitbox();
-		this.udpateCameraBox();
-
-		c.fillStyle = 'rgba(0,0,0,0.3)';
-		c.fillRect(
-			this.cameraBox.position.x,
-			this.cameraBox.position.y,
-			this.cameraBox.width,
-			this.cameraBox.height
-		);
+		this.udpatecamerabox();
 
 		this.draw();
 
@@ -128,7 +147,7 @@ class Player extends Sprite {
 				y: this.position.y + 26
 			},
 			width: 14,
-			height: 27
+			height: 27	
 		};
 	}
 
