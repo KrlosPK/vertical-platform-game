@@ -52,7 +52,7 @@ platformCollisions2D.forEach((row, y) => {
 });
 
 const gravity = 0.5;
-const playerVelocity = 6;
+const playerVelocity = 3;
 
 const player = new Player({
 	position: {
@@ -61,7 +61,29 @@ const player = new Player({
 	},
 	collisionBlocks,
 	imageSrc: './imgs/warrior/Idle.png',
-	frameRate: 8
+	frameRate: 8,
+	animations: {
+		Idle: {
+			imageSrc: './imgs/warrior/Idle.png',
+			frameRate: 8,
+			frameBuffer: 4
+		},
+		Run: {
+			imageSrc: './imgs/warrior/Run.png',
+			frameRate: 8,
+			frameBuffer: 6
+		},
+		Jump: {
+			imageSrc: './imgs/warrior/Jump.png',
+			frameRate: 2,
+			frameBuffer: 3
+		},
+		Fall: {
+			imageSrc: './imgs/warrior/Fall.png',
+			frameRate: 2,
+			frameBuffer: 100
+		}
+	}
 });
 
 const keys = {
@@ -100,8 +122,17 @@ const animate = () => {
 	player.update();
 
 	player.velocity.x = 0;
-	if (keys.d.pressed) player.velocity.x = playerVelocity;
-	if (keys.a.pressed) player.velocity.x = -playerVelocity;
+	if (keys.d.pressed) {
+		player.switchSprite('Run');
+		player.velocity.x = playerVelocity;
+	} else if (keys.a.pressed) {
+		player.velocity.x = -playerVelocity;
+	} else if (player.velocity.y === 0) {
+		player.switchSprite('Idle');
+	}
+
+	if (player.velocity.y < 0) player.switchSprite('Jump');
+	else if (player.velocity.y > 0) player.switchSprite('Fall');
 
 	c.restore();
 };
