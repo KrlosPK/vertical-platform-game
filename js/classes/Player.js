@@ -6,17 +6,12 @@ class Player extends Sprite {
 			x: 0,
 			y: 1
 		};
-		this.width = 25;
-		this.height = 25;
 		this.collisionBlocks = collisionBlocks;
 	}
 
-	draw() {
-		c.fillStyle = '#09f';
-		c.fillRect(this.position.x, this.position.y, this.width, this.height);
-	}
-
 	update() {
+		c.fillStyle = 'rgba(0, 0, 100, 0.3)'
+		c.fillRect(this.position.x, this.position.y, this.width, this.height);
 		this.draw();
 
 		this.position.x += this.velocity.x;
