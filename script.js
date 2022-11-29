@@ -183,13 +183,29 @@ window.addEventListener('keydown', (e) => {
 		case 'a':
 			keys.a.pressed = true;
 			break;
+		case 'A':
+			keys.a.pressed = true;
+			break;
+		case 'ArrowLeft':
+			keys.a.pressed = true;
+			break;
 		case 'd':
+			keys.d.pressed = true;
+			break;
+		case 'D':
+			keys.d.pressed = true;
+			break;
+		case 'ArrowRight':
 			keys.d.pressed = true;
 			break;
 		case 'w':
 			if (player.velocity.y === 0) player.velocity.y = -4;
 			break;
-		default:
+		case 'W':
+			if (player.velocity.y === 0) player.velocity.y = -4;
+			break;
+		case 'ArrowUp':
+			if (player.velocity.y === 0) player.velocity.y = -4;
 			break;
 	}
 });
@@ -199,10 +215,20 @@ window.addEventListener('keyup', (e) => {
 		case 'a':
 			keys.a.pressed = false;
 			break;
+		case 'A':
+			keys.a.pressed = false;
+			break;
+		case 'ArrowLeft':
+			keys.a.pressed = false;
+			break;
 		case 'd':
 			keys.d.pressed = false;
 			break;
-		default:
+		case 'D':
+			keys.d.pressed = false;
+			break;
+		case 'ArrowRight':
+			keys.d.pressed = false;
 			break;
 	}
 });
